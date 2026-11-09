@@ -1,0 +1,12 @@
+{
+  "_comment": "사람이 시중 만세력(2곳 이상)에서 직접 확인한 기준 케이스. S01 테스트가 자동으로 대조한다. 비어 있어도 테스트는 통과한다. policy는 해당 만세력의 설정(자시·경도 보정)과 맞춰 적는다.",
+  "cases": [
+    {
+      "_example": true,
+      "input": { "gender": "M", "calendar": "SOLAR", "date": "1988-07-15", "time": "14:20" },
+      "policy": { "zi": "YAJASI", "solarOffset": { "mode": "FIXED", "minutes": 510 } },
+      "expected": { "year": "戊辰", "month": "己未", "day": "辛未", "hour": "甲午" },
+      "source": "프로토타입 교차검증값 (lunar-javascript, 보정시각 12:50) — 실제 만세력 확인 시 _example 제거"
+    }
+  ]
+}
