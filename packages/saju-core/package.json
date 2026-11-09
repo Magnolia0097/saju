@@ -1,0 +1,18 @@
+{
+  "name": "@saju/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "만세력·피처 계산 (순수 TypeScript). S01·S02에서 구현한다.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0"
+  }
+}

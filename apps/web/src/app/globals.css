@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+/* 디자인 토큰은 S05에서 정한다. 지금은 시스템 글꼴과 기본 색만 둔다. */
+@theme {
+  --font-sans:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-white font-sans text-neutral-900 antialiased;
+}

@@ -49,27 +49,51 @@
 
 ## 명령어
 
-> S00 완료 시 실제 명령으로 이 절을 갱신한다.
+Node 22 · pnpm 10 (`package.json`의 `packageManager`로 고정). 모든 명령은 저장소 루트에서 실행한다.
 
-- 설치: `pnpm install`
-- 검사: `pnpm lint && pnpm typecheck && pnpm test`
-- DB 테스트: `bash scripts/db-test.sh`
+| 목적 | 명령 |
+|---|---|
+| 설치 | `pnpm install` (CI는 `pnpm install --frozen-lockfile`) |
+| **공통 완료 기준 검사** | `pnpm lint && pnpm typecheck && pnpm test` |
+| Lint | `pnpm lint` = ESLint(`--max-warnings 0`, typescript-eslint 타입 기반 규칙) + `prettier --check .` |
+| 포맷 | `pnpm format` (Prettier. `docs/`·`*.md`·`supabase/`·`tests/db/`는 건드리지 않는다) |
+| 타입 검사 | `pnpm typecheck` = 루트 `tsc`(설정·`tests/`) + 각 패키지 `typecheck` (웹은 `next typegen && tsc`) |
+| 테스트 | `pnpm test` = Vitest projects (`@saju/core` · `@saju/content` · `@saju/report` · `web` · `scripts`) |
+| 패키지 단독 | `pnpm --filter @saju/core test` · `pnpm --filter @saju/core typecheck` (다른 패키지도 같은 형식) |
+| 웹 | `pnpm --filter web dev` (localhost:3000) · `pnpm --filter web build` |
+| DB 테스트 | `bash scripts/db-test.sh` (= `pnpm db:test`) |
+| 비밀값 스캔 | `bash scripts/secret-scan.sh` (= `pnpm secret-scan`) |
+| Supabase CLI | `pnpm exec supabase <명령>` (devDependency. 로컬 스택 `supabase start`는 Docker 필요) |
+
+- DB 테스트
   - Postgres 16+ 서버와 `psql`이 필요하다. 접속은 `PGHOST`·`PGPORT`·`PGUSER`·`PGPASSWORD` 환경변수.
   - 환경에 Postgres가 없으면 설치를 시도한다 (예: `apt-get install -y postgresql` 후 클러스터 시작). 설치가 막히면 CI `db` 잡 결과로 확인하고 PR 본문에 그렇게 적는다.
+  - 예: `service postgresql start` → `PGHOST=localhost PGUSER=postgres PGPASSWORD=postgres bash scripts/db-test.sh` (postgres 비밀번호가 없으면 먼저 `su postgres -c "psql -c \"alter user postgres password 'postgres'\""`)
+- 비밀값 스캔
+  - 추적 파일 + add 전 새 파일(.gitignore 제외)을 본다. 발견 시 `파일:줄: 규칙`만 출력하고 값은 출력하지 않는다.
+  - 테스트용 가짜 값처럼 의도한 경우에만 그 줄에 `secret-scan: allow`를 적는다. 테스트 코드의 가짜 키는 문자열 조각을 이어 붙여 만든다 (`tests/scripts/secret-scan.test.ts` 참고).
+- CI (`.github/workflows/ci.yml`, PR · main push)
+  - `db`: Postgres 16 서비스 컨테이너 + `scripts/db-test.sh`
+  - `app`: 설치 → lint → typecheck → test → web build → secret-scan (secret-scan은 앞 단계가 실패해도 실행)
+  - S04에서 `supabase` 잡을 추가한다.
 
-## 저장소 구조 (S00에서 생성)
+## 저장소 구조
 
 ```
-apps/web/              Next.js App Router + OpenNext (Cloudflare Workers)
+apps/web/              Next.js 16 App Router + Tailwind 4 (OpenNext · Workers 설정은 S05·S09)
 packages/saju-core/    @saju/core    만세력·피처 (순수 TypeScript)
 packages/content/      @saju/content 근거 블록 데이터·검증·시드
 packages/report/       @saju/report  프롬프트·검증·LLM 제공자
+supabase/config.toml   Supabase CLI 로컬 설정 (supabase init)
 supabase/migrations/   DB 마이그레이션 (init은 검증 완료)
 tests/db/              DB 권한·RPC·동시성 테스트
+tests/scripts/         저장소 스크립트 테스트 (secret-scan 등)
 tests/fixtures/        사람이 확인한 만세력 기준 케이스
-scripts/               db-test.sh 등
+scripts/               db-test.sh · secret-scan.sh
 docs/                  SPEC · PLAN · PROGRESS · HUMAN_TASKS · research
 ```
+
+워크스페이스 패키지는 빌드 없이 TypeScript 원본을 내보낸다 (`exports` → `src/index.ts`). 웹은 `transpilePackages`로 가져온다.
 
 ## 기술 기본값
 

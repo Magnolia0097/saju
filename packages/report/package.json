@@ -1,0 +1,18 @@
+{
+  "name": "@saju/report",
+  "version": "0.0.0",
+  "private": true,
+  "description": "리포트 프롬프트·검증·LLM 제공자. S06에서 구현한다.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0"
+  }
+}

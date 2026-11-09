@@ -31,7 +31,7 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: postgres
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: psql 클라이언트 준비
         run: |
           if ! command -v psql >/dev/null; then
@@ -41,5 +41,33 @@ jobs:
       - name: DB 테스트
         run: bash scripts/db-test.sh
 
-  # S00에서 Claude Code가 app 잡(lint · typecheck · test · build)을 추가한다.
+  app:
+    name: App (lint · typecheck · test · build)
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v5
+      - name: pnpm 설치 (package.json packageManager 버전)
+        uses: pnpm/action-setup@v5
+      - name: Node 설치 · pnpm 캐시
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: 의존성 설치
+        run: pnpm install --frozen-lockfile
+      - name: Lint (ESLint · Prettier)
+        run: pnpm lint
+      - name: 타입 검사
+        run: pnpm typecheck
+      - name: 테스트
+        run: pnpm test
+      - name: 웹 빌드
+        run: pnpm --filter web build
+      - name: 비밀값 스캔
+        # 앞 단계가 실패해도 항상 실행한다 (유출은 빌드 실패와 무관하게 알아야 한다)
+        if: ${{ !cancelled() }}
+        run: bash scripts/secret-scan.sh
+
   # S04에서 supabase 잡(supabase start + supabase-js 통합 테스트)을 추가한다.

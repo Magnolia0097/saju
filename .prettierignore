@@ -1,0 +1,19 @@
+# 생성물 · 의존성
+node_modules/
+.pnpm-store/
+.next/
+.open-next/
+.wrangler/
+dist/
+out/
+coverage/
+pnpm-lock.yaml
+apps/web/next-env.d.ts
+
+# 문서(연구 스크립트 포함)·콘텐츠 마크다운은 사람이 쓰는 형식을 그대로 둔다
+docs/
+**/*.md
+
+# 검증 완료 상태로 받은 DB 자산 · Supabase CLI 생성 파일
+supabase/
+tests/db/
