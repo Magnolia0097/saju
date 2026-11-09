@@ -9,7 +9,7 @@ MVP 모드: 꺼짐 (켜려면 이 줄을 `MVP 모드: LIFE+YEAR`로 바꾼다 �
 
 | Step | 이름 | 상태 | PR | 메모 |
 |---|---|---|---|---|
-| S00 | 저장소 골격 · CI | 🔄 | | pnpm 10 · Node 22 · TS 6.0 · ESLint 10 · Vitest 5 · Next.js 16.4 · Tailwind 4 · Supabase CLI 2.122. CI `db` · `app` |
+| S00 | 저장소 골격 · CI | ✅ | [#1](https://github.com/Magnolia0097/saju/pull/1) | pnpm 10 · Node 22 · TS 6.0 · ESLint 10 · Vitest 5 · Next.js 16.4 · Tailwind 4 · Supabase CLI 2.122. CI `db` · `app` |
 | S01 | 만세력 코어 | ⬜ | | 계산 방식 사전 검증: `docs/research/calendar-crosscheck.md` |
 | S02 | 피처 추출 · 키 카탈로그 | ⬜ | | |
 | S03a | 콘텐츠 가이드 · 검증기 · 일주 60 | ⬜ | | |
@@ -50,5 +50,6 @@ MVP 모드: 꺼짐 (켜려면 이 줄을 `MVP 모드: LIFE+YEAR`로 바꾼다 �
 
 ## 작업 로그
 
+- 2026-11-09 — S00 완료 ([#1](https://github.com/Magnolia0097/saju/pull/1)): pnpm 워크스페이스(TS 6.0 strict · ESLint 10 · Prettier · Vitest 5), 패키지 골격 3개, Next.js 16 웹 골격, `supabase init`, `scripts/secret-scan.sh`(+테스트 19개), CI `app` 잡
 - 2026-11-09 — 스타터 키트를 main 초기 커밋으로 반영 (H0 2단계를 Claude Code가 대행). CI `db` 잡 main에서 green
 - 2026-11-09 — 스타터 키트 생성: SPEC v2.1, `supabase/migrations/20261109000000_init.sql`, DB 테스트(RLS · RPC · 결제 · 초대 · 동시성 — 행 잠금 제거 변이에서 이중 차감 검출 확인), CI `db` 잡, 만세력 계산 방식 사전 검증(`docs/research/`)
