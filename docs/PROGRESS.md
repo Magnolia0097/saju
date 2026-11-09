@@ -9,7 +9,7 @@ MVP 모드: 꺼짐 (켜려면 이 줄을 `MVP 모드: LIFE+YEAR`로 바꾼다 �
 
 | Step | 이름 | 상태 | PR | 메모 |
 |---|---|---|---|---|
-| S00 | 저장소 골격 · CI | ⬜ | | 마이그레이션 · DB 테스트 · CI `db` 잡은 키트에 포함 (검증 완료) |
+| S00 | 저장소 골격 · CI | 🔄 | | pnpm 10 · Node 22 · TS 6.0 · ESLint 10 · Vitest 5 · Next.js 16.4 · Tailwind 4 · Supabase CLI 2.122. CI `db` · `app` |
 | S01 | 만세력 코어 | ⬜ | | 계산 방식 사전 검증: `docs/research/calendar-crosscheck.md` |
 | S02 | 피처 추출 · 키 카탈로그 | ⬜ | | |
 | S03a | 콘텐츠 가이드 · 검증기 · 일주 60 | ⬜ | | |
@@ -29,7 +29,7 @@ MVP 모드: 꺼짐 (켜려면 이 줄을 `MVP 모드: LIFE+YEAR`로 바꾼다 �
 
 | ID | 내용 | 필요 시점 | 상태 |
 |---|---|---|---|
-| H0 | GitHub 저장소 + Claude Code 연결 | 지금 | ⬜ |
+| H0 | GitHub 저장소 + Claude Code 연결 | 지금 | 🔄 키트 main 반영·Actions 동작 확인. **저장소가 public → private 전환 필요 (S03a 전 필수)**, main 보호 규칙(권장) |
 | H4 | 겸업 확인 · 사업자 · 통신판매업 · PG 신청 | 지금 시작 | ⬜ |
 | H1 | Supabase 프로젝트 2개 + 설정 + 시크릿 | S09 전 | ⬜ |
 | H2 | Cloudflare 계정 · 토큰 · Turnstile · 도메인 | S09 전 | ⬜ |
@@ -46,6 +46,9 @@ MVP 모드: 꺼짐 (켜려면 이 줄을 `MVP 모드: LIFE+YEAR`로 바꾼다 �
 
 (Step 중간에 멈출 때 남은 일을 여기에 적는다. 이어받은 세션은 이 메모부터 처리하고 지운다.)
 
+- 저장소 공개 범위: 2026-11-09 확인 시 **public**. S03a부터 유료 근거 블록(`grounding`·`fallback`)이 커밋되므로 그 전에 private으로 바꿔야 한다 (SPEC 0.2-2). 다음 Step 시작 전 공개 범위를 다시 확인한다.
+
 ## 작업 로그
 
+- 2026-11-09 — 스타터 키트를 main 초기 커밋으로 반영 (H0 2단계를 Claude Code가 대행). CI `db` 잡 main에서 green
 - 2026-11-09 — 스타터 키트 생성: SPEC v2.1, `supabase/migrations/20261109000000_init.sql`, DB 테스트(RLS · RPC · 결제 · 초대 · 동시성 — 행 잠금 제거 변이에서 이중 차감 검출 확인), CI `db` 잡, 만세력 계산 방식 사전 검증(`docs/research/`)
